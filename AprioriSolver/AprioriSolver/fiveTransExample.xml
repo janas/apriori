@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<transactions>
+  <transaction>
+    <item>1</item>
+    <item>2</item>
+    <item>5</item>
+  </transaction>
+  <transaction>
+    <item>3</item>
+    <item>4</item>
+  </transaction>
+  <transaction>
+    <item>2</item>
+    <item>1</item>
+  </transaction>
+  <transaction>
+    <item>3</item>
+    <item>4</item>
+    <item>5</item>
+  </transaction>
+  <transaction>
+    <item>1</item>
+    <item>2</item>
+    <item>4</item>
+    <item>5</item>
+  </transaction>
+</transactions>
