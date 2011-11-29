@@ -71,7 +71,7 @@
             this.setButton.UseVisualStyleBackColor = true;
             this.setButton.Click += new System.EventHandler(this.setButton_Click);
             // 
-            // SetSupport
+            // SetSupportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -80,7 +80,9 @@
             this.Controls.Add(this.supportLabel);
             this.Controls.Add(this.supportUpDown);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "SetSupport";
+            this.MaximizeBox = false;
+            this.Name = "SetSupportForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Set Support";
             ((System.ComponentModel.ISupportInitialize)(this.supportUpDown)).EndInit();
             this.ResumeLayout(false);

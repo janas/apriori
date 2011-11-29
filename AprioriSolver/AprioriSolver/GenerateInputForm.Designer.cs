@@ -144,7 +144,9 @@
             this.Controls.Add(this.transactionsUpDown);
             this.Controls.Add(this.generateButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "GenerateInputForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Generate transactions";
             ((System.ComponentModel.ISupportInitialize)(this.transactionsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemsUpDown)).EndInit();

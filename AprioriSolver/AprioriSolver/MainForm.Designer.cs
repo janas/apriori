@@ -32,17 +32,17 @@
             this.inputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlTab = new System.Windows.Forms.TabControl();
             this.transactionsPage = new System.Windows.Forms.TabPage();
+            this.transactionsListBox = new System.Windows.Forms.ListBox();
             this.frequentPage = new System.Windows.Forms.TabPage();
+            this.frequentListBox = new System.Windows.Forms.ListBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.progressBarLabel = new System.Windows.Forms.Label();
-            this.transactionsListBox = new System.Windows.Forms.ListBox();
-            this.frequentListBox = new System.Windows.Forms.ListBox();
-            this.setSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.controlTab.SuspendLayout();
             this.transactionsPage.SuspendLayout();
@@ -84,6 +84,13 @@
             this.importTransactionsToolStripMenuItem.Text = "Import transactions";
             this.importTransactionsToolStripMenuItem.Click += new System.EventHandler(this.importTransactionsToolStripMenuItem_Click);
             // 
+            // setSupportToolStripMenuItem
+            // 
+            this.setSupportToolStripMenuItem.Name = "setSupportToolStripMenuItem";
+            this.setSupportToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.setSupportToolStripMenuItem.Text = "Set support";
+            this.setSupportToolStripMenuItem.Click += new System.EventHandler(this.setSupportToolStripMenuItem_Click);
+            // 
             // outputToolStripMenuItem
             // 
             this.outputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -114,7 +121,7 @@
             this.controlTab.Location = new System.Drawing.Point(12, 27);
             this.controlTab.Name = "controlTab";
             this.controlTab.SelectedIndex = 0;
-            this.controlTab.Size = new System.Drawing.Size(370, 493);
+            this.controlTab.Size = new System.Drawing.Size(370, 494);
             this.controlTab.TabIndex = 4;
             // 
             // transactionsPage
@@ -123,10 +130,18 @@
             this.transactionsPage.Location = new System.Drawing.Point(4, 22);
             this.transactionsPage.Name = "transactionsPage";
             this.transactionsPage.Padding = new System.Windows.Forms.Padding(3);
-            this.transactionsPage.Size = new System.Drawing.Size(362, 467);
+            this.transactionsPage.Size = new System.Drawing.Size(362, 468);
             this.transactionsPage.TabIndex = 0;
             this.transactionsPage.Text = "Transactions";
             this.transactionsPage.UseVisualStyleBackColor = true;
+            // 
+            // transactionsListBox
+            // 
+            this.transactionsListBox.FormattingEnabled = true;
+            this.transactionsListBox.Location = new System.Drawing.Point(3, 3);
+            this.transactionsListBox.Name = "transactionsListBox";
+            this.transactionsListBox.Size = new System.Drawing.Size(356, 459);
+            this.transactionsListBox.TabIndex = 0;
             // 
             // frequentPage
             // 
@@ -134,10 +149,18 @@
             this.frequentPage.Location = new System.Drawing.Point(4, 22);
             this.frequentPage.Name = "frequentPage";
             this.frequentPage.Padding = new System.Windows.Forms.Padding(3);
-            this.frequentPage.Size = new System.Drawing.Size(362, 467);
+            this.frequentPage.Size = new System.Drawing.Size(362, 185);
             this.frequentPage.TabIndex = 1;
             this.frequentPage.Text = "Frequent sets";
             this.frequentPage.UseVisualStyleBackColor = true;
+            // 
+            // frequentListBox
+            // 
+            this.frequentListBox.FormattingEnabled = true;
+            this.frequentListBox.Location = new System.Drawing.Point(3, 3);
+            this.frequentListBox.Name = "frequentListBox";
+            this.frequentListBox.Size = new System.Drawing.Size(356, 459);
+            this.frequentListBox.TabIndex = 0;
             // 
             // progressBar
             // 
@@ -154,29 +177,6 @@
             this.progressBarLabel.Size = new System.Drawing.Size(0, 13);
             this.progressBarLabel.TabIndex = 6;
             // 
-            // transactionsListBox
-            // 
-            this.transactionsListBox.FormattingEnabled = true;
-            this.transactionsListBox.Location = new System.Drawing.Point(3, 3);
-            this.transactionsListBox.Name = "transactionsListBox";
-            this.transactionsListBox.Size = new System.Drawing.Size(356, 459);
-            this.transactionsListBox.TabIndex = 0;
-            // 
-            // frequentListBox
-            // 
-            this.frequentListBox.FormattingEnabled = true;
-            this.frequentListBox.Location = new System.Drawing.Point(3, 3);
-            this.frequentListBox.Name = "frequentListBox";
-            this.frequentListBox.Size = new System.Drawing.Size(356, 459);
-            this.frequentListBox.TabIndex = 0;
-            // 
-            // setSupportToolStripMenuItem
-            // 
-            this.setSupportToolStripMenuItem.Name = "setSupportToolStripMenuItem";
-            this.setSupportToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.setSupportToolStripMenuItem.Text = "Set support";
-            this.setSupportToolStripMenuItem.Click += new System.EventHandler(this.setSupportToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -188,6 +188,7 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Data Mining";
             this.menuStrip1.ResumeLayout(false);

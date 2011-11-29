@@ -13,11 +13,15 @@ namespace AprioriSolver
     {
         private int supportPercentage;
 
+        /// <summary>Default constructor.</summary>
         public SetSupportForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>Sets value of supportPercentage.</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void setButton_Click(object sender, EventArgs e)
         {
             supportPercentage = (int)supportUpDown.Value;
@@ -25,6 +29,8 @@ namespace AprioriSolver
             this.Close();
         }
 
+        /// <summary>Gets value of supportPercentage.</summary>
+        /// <returns>Value of supportPercentage.</returns>
         public int getSupportPercentage()
         {
             return supportPercentage;

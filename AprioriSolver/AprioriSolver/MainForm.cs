@@ -16,7 +16,7 @@ namespace AprioriSolver
         List<List<int>> transactions;
         List<List<int>> frequentSets;
         List<int> items;
-        int support = 0;
+        int supportPercentage = 0;
         int transactionsNumber;
         int itemsNumber;
         int itemsInTransNumber;
@@ -24,28 +24,46 @@ namespace AprioriSolver
         XDocument xDoc;
         string xImportFileName;
         string xExportFileName;
+        DateTime startTime;
+        DateTime stopTime;
 
+        /// <summary>Default constructor.</summary>
         public MainForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>Stops the background thread.</summary>
+        /// <param name="info">Text to be displayed above progress bar.</param>
         private void threadStart(string info)
         {
             progressBarLabel.Invoke((MethodInvoker)(() => progressBarLabel.Text = info));
             thread.Start();
             progressBar.Style = ProgressBarStyle.Marquee;
             progressBar.MarqueeAnimationSpeed = 30;
+            startTime = DateTime.Now;
         }
 
-        private void threadStop()
+        /// <summary>Stops the background thread.</summary>
+        /// <param name="countTime">Indicates whether count time of thread life.</param>
+        private void threadStop(bool countTime)
         {
             progressBarLabel.Invoke((MethodInvoker)(() => progressBarLabel.Text = ""));
             StopProgressBar(progressBar);
+            if (countTime)
+            {
+                stopTime = DateTime.Now;
+                TimeSpan time = stopTime - startTime;
+                progressBarLabel.Invoke((MethodInvoker)(() => progressBarLabel.Text =
+                    "Processed in: " + time.ToString()));
+            }
             thread.Abort();
         }
 
         delegate void CallProgressBarStop(ProgressBar myProgressBar);
+
+        /// <summary>Stops progress bar.</summary>
+        /// <param name="myProgressBar">Progress bar to be stopped.</param>
         private void StopProgressBar(ProgressBar myProgressBar)
         {
             if (myProgressBar.InvokeRequired)
@@ -103,6 +121,8 @@ namespace AprioriSolver
         private List<List<int>> createCandidates(List<List<int>> L, int length)
         {
             List<List<int>> result = new List<List<int>>();
+            if (L == null || L.Count == 0)
+                return result;
             List<int> candidate = new List<int>();
             for (int i = 0; i < L.Count; i++)
             {
@@ -119,18 +139,10 @@ namespace AprioriSolver
         /// <summary>Initializes finding frequent sets and prints result in ListBox.</summary>
         private void findFrequent()
         {
-            findFrequent(null, 1);
-            frequentListBox.Invoke((MethodInvoker)(() => frequentListBox.Items.Clear()));
-            //frequentSets.Sort();
-            foreach (List<int> set in frequentSets)
-            {
-                string setString = "";
-                foreach (int element in set)
-                    setString += element.ToString() + " ";
-                frequentListBox.Invoke((MethodInvoker)(() => frequentListBox.Items.Add(setString)));
-            }
             controlTab.Invoke((MethodInvoker)(() => controlTab.SelectedIndex = 1));
-            threadStop();
+            findFrequent(null, 1);
+            //frequentSets.Sort();
+            threadStop(true);
         }
 
         /// <summary>Finds frequent sets in candidate sets and moves them to frequent list.</summary>
@@ -152,11 +164,21 @@ namespace AprioriSolver
                 }
             }
             List<List<int>> L = new List<List<int>>();
+            if (candidates.Count == 0)
+                return;
             foreach (List<int> C in candidates)
-                if (setInSetOfSets(C, transactions) >= support)
+                if (setInSetOfSets(C, transactions) >= ((supportPercentage * transactions.Count)/100))
                     L.Add(C);
+            if (L.Count == 0)
+                return;
             foreach (List<int> set in L)
+            {
                 frequentSets.Add(set);
+                string setString = "";
+                foreach (int element in set)
+                    setString += element.ToString() + " ";
+                frequentListBox.Invoke((MethodInvoker)(() => frequentListBox.Items.Add(setString)));
+            }
             length++;
             List<List<int>> nextCandidates = createCandidates(L, length);
             if (nextCandidates.Count == 0)
@@ -169,7 +191,7 @@ namespace AprioriSolver
         private void generateTransactions()
         {
             generateTransactions(transactionsNumber, itemsNumber, itemsInTransNumber);
-            threadStop();
+            threadStop(true);
         }
 
         /// <summary>Generate transactions.</summary>
@@ -184,9 +206,8 @@ namespace AprioriSolver
             Random random = new Random();
             for (int i = 0; i < transactionsN; i++)
             {
-                //if (i % 1000 == 0)
-                    progressBarLabel.Invoke((MethodInvoker)(() => progressBarLabel.Text =
-                        "Generating transactions: " + ((i*100)/transactionsN).ToString() + "%"));
+                progressBarLabel.Invoke((MethodInvoker)(() => progressBarLabel.Text =
+                    "Generating transactions: " + ((i*100)/transactionsN).ToString() + "%"));
                 List<int> transaction = new List<int>();
                 int maxJ = random.Next(1, itemsInTransN + 1);
                 for (int j = 0; j < maxJ; j++)
@@ -273,7 +294,7 @@ namespace AprioriSolver
             {
                 MessageBox.Show("File invalid.\n" + exc.ToString());
             }
-            threadStop();
+            threadStop(true);
         }
 
         /// <summary>Calls OpenFileDialog for importing XML file.</summary>
@@ -299,9 +320,9 @@ namespace AprioriSolver
         /// <param name="e"></param>
         private void generateOutputToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (support == 0)
+            if (transactions == null || transactions.Count == 0)
             {
-                MessageBox.Show("Sorry, the support is equal to 0.");
+                MessageBox.Show("Sorry, there are no transactions.");
                 return;
             }
             if (items == null || items.Count == 0)
@@ -309,6 +330,12 @@ namespace AprioriSolver
                 MessageBox.Show("Sorry, there are no items in transactions.");
                 return;
             }
+            if (((supportPercentage * transactions.Count) / 100) == 0)
+            {
+                MessageBox.Show("Sorry, the support is equal to 0 transactions.");
+                return;
+            }
+            frequentListBox.Invoke((MethodInvoker)(() => frequentListBox.Items.Clear()));
             thread = new Thread(new ThreadStart(findFrequent));
             threadStart("Generating frequent sets");
         }
@@ -331,14 +358,14 @@ namespace AprioriSolver
             }
             XElement xFrequent = new XElement("frequent", xSets.ToArray());
             xDoc.Add(xFrequent);
-            threadStop();
+            threadStop(true);
         }
 
         /// <summary>Saves XMl file.</summary>
         private void saveXmlFileWithFrequentSets()
         {
             xDoc.Save(xExportFileName);
-            threadStop();
+            threadStop(true);
         }
 
         /// <summary>Calls SaveFileDialog for saving XML file.</summary>
@@ -373,18 +400,10 @@ namespace AprioriSolver
             {
                 DialogResult dr = ssf.ShowDialog();
                 if (dr == DialogResult.OK)
-                {
-                    int percentage = ssf.getSupportPercentage();
-                    support = (transactions.Count * percentage) / 100;
-                    MessageBox.Show("Support set to " + percentage.ToString() + "%,\n"
-                        + "which is " + support.ToString() + " transaction(s).");
-                }
+                    supportPercentage = ssf.getSupportPercentage();
                 else
-                {
                     MessageBox.Show("You have not set support.");
-                }
             }
-            threadStop();
         }
 
         /// <summary>Calls setSupport method.</summary>
@@ -397,8 +416,7 @@ namespace AprioriSolver
                 MessageBox.Show("Please, firstly generate or import transactions.");
                 return;
             }
-            thread = new Thread(new ThreadStart(setSupport));
-            threadStart("Setting support");
+            setSupport();
         }
     }
 }

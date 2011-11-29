@@ -15,6 +15,7 @@ namespace AprioriSolver
         private int itemsNumber;
         private int itemsInTransNumber;
 
+        /// <summary>Default constructor.</summary>
         public GenerateInputForm()
         {
             InitializeComponent();
@@ -23,6 +24,9 @@ namespace AprioriSolver
             itemsInTransUpDown.Maximum = Int32.MaxValue;
         }
 
+        /// <summary>Retrieves all necessary data needed to generate transactions.</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void generateButton_Click(object sender, EventArgs e)
         {
             transactionsNumber = (int)transactionsUpDown.Value;
@@ -39,16 +43,22 @@ namespace AprioriSolver
                     + "Maximal number of items!");
         }
 
+        /// <summary>Gets value of transactionsNumber.</summary>
+        /// <returns>Value of transactionsNumber.</returns>
         public int getTransactionsNumber()
         {
             return transactionsNumber;
         }
 
+        /// <summary>Gets value of itemsNumber.</summary>
+        /// <returns>Value of itemsNumber.</returns>
         public int getItemsNumber()
         {
             return itemsNumber;
         }
 
+        /// <summary>Gets value of itemsInTransNumber.</summary>
+        /// <returns>Value of itemsInTransNumber.</returns>
         public int getItemsInTransNumber()
         {
             return itemsInTransNumber;
